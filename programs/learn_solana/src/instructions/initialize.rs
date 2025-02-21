@@ -42,6 +42,6 @@ pub fn initialize(ctx: Context<InitializePool>, authority: Pubkey, fee: u64) -> 
     pool.token_amount_x = 0;
     pool.token_amount_y = 0;
     pool.lp_supply = 0;
-    pool.fee = fee; 
+    pool.fee = fee;
     Ok(())
 }

@@ -299,7 +299,6 @@ describe("Small AMM", () => {
     const amountX = amount/2;
     const amountY = amount/2;
  
-   
     getContext(context);
 
 
@@ -358,7 +357,9 @@ describe("Small AMM", () => {
 
 
     const amountX = amount/4;
-    const amountY = (poolY_A*10**6 * amountX) / (poolX_A*10**6 + amountX);
+    const FEE = amountX * 10 / 10000;
+    const amountX_after_fee = amountX - FEE;
+    const amountY = (poolY_A*10**6 * amountX_after_fee) / (poolX_A*10**6 + amountX_after_fee);
 
 
     await approve(
@@ -413,8 +414,9 @@ describe("Small AMM", () => {
       aliceX,
       aliceY
     );
-  });
 
+  });
+ 
   it("Swap Y for X", async () => {
 
     const balancesBefore = await checkBalances(
@@ -429,7 +431,9 @@ describe("Small AMM", () => {
     );
 
     const amountY = amount / 10;
-    const amountX = (poolX_A * amountY) / (poolY_A + amountY);
+    const FEE = amountY * 10 / 10000;
+    const amountY_after_fee = amountY - FEE;
+    const amountX = (poolX_A * amountY_after_fee) / (poolY_A + amountY_after_fee);
 
     await approve(
       provider.connection,
@@ -555,7 +559,6 @@ describe("Small AMM", () => {
       aliceX,
       aliceY
     );
-
 
     const poolAccount = await program.account.liquidityPool.fetch(poolPda);
 

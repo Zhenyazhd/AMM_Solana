@@ -35,7 +35,11 @@ pub fn swap_y_for_x(ctx: Context<SwapYForX>, amount_in: u64) -> Result<()> {
 
 
     let pool = &mut ctx.accounts.pool;
-    let amount_out = ((pool.token_amount_x  as u128).saturating_mul(amount_in as u128) as u64 )/ (pool.token_amount_y + amount_in);
+
+    let fee_amount = (amount_in * pool.fee) / 10_000; 
+    let amount_in_after_fee = amount_in - fee_amount; 
+
+    let amount_out = ((pool.token_amount_x  as u128).saturating_mul(amount_in_after_fee as u128) as u64 )/ (pool.token_amount_y + amount_in_after_fee);
 
     require!(
         amount_out != 0,
